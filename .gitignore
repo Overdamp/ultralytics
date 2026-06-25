@@ -208,3 +208,8 @@ results.csv
 
 # CI test asset cache
 .ultralytics_cache/
+
+# Obsidian Vault Workspace (changes constantly)
+.obsidian/workspace.json
+.obsidian/workspace
+.obsidian/workspace-mobile.json

@@ -1,0 +1,218 @@
+{
+  "main": {
+    "id": "9ebaa63984449465",
+    "type": "split",
+    "children": [
+      {
+        "id": "934e4eb963b7106f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b1e2d3ec2c342571",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8fe036edde046963",
+    "type": "split",
+    "children": [
+      {
+        "id": "ec0cde91999c522a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3c86fb346db3334a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "ad3de76bd8946f35",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "3e21768bc60f1a5b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "35ed1a9b9c6d0542",
+    "type": "split",
+    "children": [
+      {
+        "id": "e608727a673fac5a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2947d9b32c67e46c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "7fc94d13a1a9ccac",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "8a8295187512cd2e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "d156f115fc32650b",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "92c45caaaf4601fb",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "b1e2d3ec2c342571",
+  "lastOpenFiles": [
+    "experiments/01_machine_learning/EX01_Linear_Regression/EX01_Linear_Regression.md",
+    "Journal/learning_journal.md",
+    "experiments/01_machine_learning/EX02_Polynomial_Regression/EX02_Polynomial_Regression.md",
+    "EX02_Polynomial_Regression.md",
+    "experiments/03_deep_learning_and_yolo/EX41_Bounding_Box/EX41_Bounding_Box.md",
+    "experiments/01_machine_learning/EX06_KNN/EX06_KNN.md",
+    "experiments/01_machine_learning/EX09_SVM/EX09_SVM.md",
+    "experiments/01_machine_learning/EX04_Lasso_Regression/EX04_Lasso_Regression.md",
+    "experiments/01_machine_learning/EX07_Decision_Tree/EX07_Decision_Tree.md",
+    "experiments/01_machine_learning/EX10_Naive_Bayes/EX10_Naive_Bayes.md",
+    "experiments/01_machine_learning/EX03_Ridge_Regression/EX03_Ridge_Regression.md",
+    "experiments/01_machine_learning/EX08_Random_Forest/EX08_Random_Forest.md",
+    "experiments/01_machine_learning/EX05_Logistic_Regression/EX05_Logistic_Regression.md",
+    "experiments/02_evaluation_and_tuning/EX16_ROC_Curve/EX16_ROC_Curve.md",
+    "experiments/02_evaluation_and_tuning/EX22_Stochastic_GD/EX22_Stochastic_GD.md",
+    "experiments/02_evaluation_and_tuning/EX11_Accuracy/EX11_Accuracy.md",
+    "experiments/02_evaluation_and_tuning/EX15_F1_Score/EX15_F1_Score.md",
+    "experiments/02_evaluation_and_tuning/EX26_Adam/EX26_Adam.md",
+    "experiments/02_evaluation_and_tuning/EX27_Learning_Rate/EX27_Learning_Rate.md",
+    "experiments/02_evaluation_and_tuning/EX25_RMSProp/EX25_RMSProp.md",
+    "experiments/02_evaluation_and_tuning/EX29_Batch_Size/EX29_Batch_Size.md",
+    "experiments/02_evaluation_and_tuning/EX21_Gradient_Descent/EX21_Gradient_Descent.md",
+    "experiments/02_evaluation_and_tuning/EX17_AUC/EX17_AUC.md",
+    "experiments/02_evaluation_and_tuning/EX23_Mini_Batch_GD/EX23_Mini_Batch_GD.md",
+    "experiments/02_evaluation_and_tuning/EX19_Cross_Validation/EX19_Cross_Validation.md",
+    "experiments/02_evaluation_and_tuning/EX28_Weight_Decay/EX28_Weight_Decay.md",
+    "experiments/rename_notes.py",
+    "experiments/populate_remaining_notes.py",
+    "experiments/03_deep_learning_and_yolo/EX50_Hyperparameter_Tuning/solution.py",
+    "experiments/03_deep_learning_and_yolo/EX50_Hyperparameter_Tuning/skeleton.py",
+    "experiments/03_deep_learning_and_yolo/EX50_Hyperparameter_Tuning/explanation.ipynb",
+    "experiments/03_deep_learning_and_yolo/EX50_Hyperparameter_Tuning",
+    "experiments/03_deep_learning_and_yolo/EX49_YOLO_Result_Analysis/solution.py",
+    "experiments/03_deep_learning_and_yolo/EX49_YOLO_Result_Analysis/skeleton.py",
+    "experiments/03_deep_learning_and_yolo/EX49_YOLO_Result_Analysis/explanation.ipynb",
+    "experiments/03_deep_learning_and_yolo/EX49_YOLO_Result_Analysis"
+  ]
+}
