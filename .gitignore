@@ -154,6 +154,8 @@ examples/ultralytics/
 runs/
 wandb/
 .DS_Store
+Thumbs.db
+Desktop.ini
 
 # Neural Network weights -----------------------------------------------------------------------------------------------
 weights/
@@ -210,6 +212,8 @@ results.csv
 .ultralytics_cache/
 
 # Obsidian Vault Workspace (changes constantly)
-.obsidian/workspace.json
-.obsidian/workspace
-.obsidian/workspace-mobile.json
+**/.obsidian/workspace.json
+**/.obsidian/workspace
+**/.obsidian/workspace-mobile.json
+**/.obsidian/graph.json
+
