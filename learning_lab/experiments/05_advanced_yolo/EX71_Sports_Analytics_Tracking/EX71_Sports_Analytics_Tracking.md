@@ -1,0 +1,160 @@
+# 🧠 EX71: Sports Analytics Tracking (Kalman Filters for Fast-Moving Objects)
+
+In sports analytics, tracking fast-moving, tiny objects (such as tennis balls, golf balls, or baseballs) is one of the most demanding tasks in computer vision. Standard object detectors like YOLO often suffer from:
+*   **Motion Blur:** The object is stretched or smeared across pixels due to high velocity and low camera shutter speed, causing detection failure.
+*   **Severe Occlusion:** The object is blocked by players, sports equipment (bats, nets), or background clutter.
+
+To overcome these failures, we combine YOLO detections with a **Kalman Filter**. The Kalman Filter is a recursive state estimator that maintains a physical model of the object's motion (e.g., velocity and position) to predict its location in frames where YOLO fails to detect it.
+
+---
+
+## 1. Core Principles & Mathematical Formulation
+
+The state of a moving ball in 2D space can be modeled by its position ($x, y$) and its velocity ($v_x, v_y$). We define the state vector $\mathbf{x}_k$ at time step $k$ as:
+
+$$\mathbf{x}_k = \begin{bmatrix} x \\ y \\ v_x \\ v_y \end{bmatrix}_k$$
+
+The Kalman Filter works in two alternating phases: **Predict** and **Update**.
+
+### Phase 1: Predict (Motion Model)
+Using physics (assuming constant velocity over a short time step $\Delta t$), we predict the state $\mathbf{x}_{k|k-1}$ and the state covariance matrix $\mathbf{P}_{k|k-1}$:
+
+$$\mathbf{x}_{k|k-1} = \mathbf{F} \mathbf{x}_{k-1|k-1}$$
+
+$$\mathbf{P}_{k|k-1} = \mathbf{F} \mathbf{P}_{k-1|k-1} \mathbf{F}^T + \mathbf{Q}$$
+
+Where:
+*   $\mathbf{F}$ is the state transition matrix:
+    $$\mathbf{F} = \begin{bmatrix} 1 & 0 & \Delta t & 0 \\ 0 & 1 & 0 & \Delta t \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+*   $\mathbf{Q}$ is the process noise covariance matrix, representing physical modeling uncertainties (e.g., air resistance, wind, gravity deviations).
+
+### Phase 2: Update (Sensor Measurement)
+When YOLO successfully detects the ball, it yields a measurement vector $\mathbf{z}_k = [x_{yolo}, y_{yolo}]^T$. We update our predicted state using the measurement matrix $\mathbf{H}$ and the Kalman Gain $\mathbf{K}_k$:
+
+$$\mathbf{K}_k = \mathbf{P}_{k|k-1} \mathbf{H}^T (\mathbf{H} \mathbf{P}_{k|k-1} \mathbf{H}^T + \mathbf{R})^{-1}$$
+
+$$\mathbf{x}_{k|k} = \mathbf{x}_{k|k-1} + \mathbf{K}_k (\mathbf{z}_k - \mathbf{H} \mathbf{x}_{k|k-1})$$
+
+$$\mathbf{P}_{k|k} = (\mathbf{I} - \mathbf{K}_k \mathbf{H}) \mathbf{P}_{k|k-1}$$
+
+Where:
+*   $\mathbf{H}$ is the measurement matrix mapping the state to the measurement dimensions:
+    $$\mathbf{H} = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \end{bmatrix}$$
+*   $\mathbf{R}$ is the measurement noise covariance matrix, reflecting YOLO's bounding box coordinate variance.
+
+**Handling Occlusions/Blur:** If YOLO fails to detect the ball in frame $k$, we skip the **Update** phase entirely. The final estimated state is simply the predicted state: $\mathbf{x}_{k|k} = \mathbf{x}_{k|k-1}$ and $\mathbf{P}_{k|k} = \mathbf{P}_{k|k-1}$.
+
+---
+
+## 💻 Python Implementation
+
+Below is a complete implementation of a 2D Kalman Filter tracking a ball along a linear trajectory where YOLO misses detections in the middle due to occlusion.
+
+```python
+import numpy as np
+
+class KalmanFilter2D:
+    def __init__(self, dt=1.0, process_noise=0.1, measurement_noise=2.0):
+        # State: [x, y, vx, vy]
+        self.x = np.zeros((4, 1))
+        
+        # State Transition Matrix (F)
+        self.F = np.array([
+            [1, 0, dt,  0],
+            [0, 1,  0, dt],
+            [0, 0,  1,  0],
+            [0, 0,  0,  1]
+        ])
+        
+        # Measurement Matrix (H)
+        self.H = np.array([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0]
+        ])
+        
+        # Covariance Matrices
+        self.P = np.eye(4) * 10.0  # Initial uncertainty
+        self.Q = np.eye(4) * process_noise  # Process noise
+        self.R = np.eye(2) * measurement_noise  # Measurement noise
+        
+    def predict(self):
+        # Predict State and Covariance
+        self.x = np.dot(self.F, self.x)
+        self.P = np.dot(np.dot(self.F, self.P), self.F.T) + self.Q
+        return self.x[:2].flatten()
+        
+    def update(self, z):
+        # Measurement update (z is [x, y] from YOLO)
+        z = np.array(z).reshape(2, 1)
+        y = z - np.dot(self.H, self.x)  # Innovation/Residual
+        S = np.dot(np.dot(self.H, self.P), self.H.T) + self.R
+        K = np.dot(np.dot(self.P, self.H.T), np.linalg.inv(S))  # Kalman Gain
+        
+        # Update State and Covariance
+        self.x = self.x + np.dot(K, y)
+        self.P = np.dot(np.eye(4) - np.dot(K, self.H), self.P)
+        return self.x[:2].flatten()
+
+# Simulation Setup
+frames = 10
+actual_velocity = (10, 5)  # pixels per frame (vx, vy)
+kf = KalmanFilter2D(dt=1.0)
+
+# Initialize state with first frame detection
+kf.x = np.array([[10], [20], [10], [5]])  # Initial pos (10, 20), vel (10, 5)
+
+# Simulate 10 frames
+# YOLO detections exist for all frames EXCEPT frames 4, 5, and 6 (occluded)
+yolo_detections = {
+    0: [10, 20],
+    1: [21, 24],
+    2: [29, 31],
+    3: [41, 35],
+    4: None,  # Occluded!
+    5: None,  # Occluded!
+    6: None,  # Occluded!
+    7: [80, 56],
+    8: [91, 61],
+    9: [102, 64]
+}
+
+print("Frame | Ground Truth | YOLO Detection | Kalman Estimate | Status")
+print("-" * 75)
+
+for f in range(frames):
+    # Compute ground truth position
+    gt_x = 10 + f * actual_velocity[0]
+    gt_y = 20 + f * actual_velocity[1]
+    
+    # Step 1: Predict next position
+    predicted_pos = kf.predict()
+    
+    detection = yolo_detections[f]
+    
+    if detection is not None:
+        # Step 2: Update Kalman filter if YOLO detected the ball
+        final_estimate = kf.update(detection)
+        status = "Updated"
+    else:
+        # No detection: Rely purely on Kalman Prediction
+        final_estimate = predicted_pos
+        status = "Predicted (Occluded)"
+        
+    print(f"{f:5d} | ({gt_x:3d}, {gt_y:3d})    | "
+          f"{str(detection):14s} | ({final_estimate[0]:.1f}, {final_estimate[1]:.1f}) | {status}")
+```
+
+---
+
+## 🛠️ Connection to Computer Vision & YOLO
+
+*   **State Space Models in Trackers:** Advanced object trackers, like **ByteTrack** and **DeepSORT** (both supported natively inside Ultralytics YOLO via `model.track(tracker="bytetrack.yaml")`), use Kalman Filters to model bounding box states ($[x, y, a, h, \dot{x}, \dot{y}, \dot{a}, \dot{h}]$ where $a$ is aspect ratio).
+*   **Measurement Noise Scaling:** In sports analysis, cameras are often stationary. High-precision cameras mean we can reduce measurement noise $R$. If YOLO outputs noisy boxes due to changing shadows or ball deformation, we increase $R$ to make the tracker rely more heavily on smooth physics-based state predictions.
+
+---
+
+*Related Topics:*
+*   [[EX70_Retail_Shelf_Monitoring]]
+*   [[EX72_Autonomous_Driving_BEV]]
+*   [[YOLO_Learning_Plan]]
+*   [[learning_journal]]

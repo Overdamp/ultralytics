@@ -148,7 +148,7 @@ dmypy.json
 .pyre/
 
 # datasets and projects (ignore /datasets dir at root only to allow for docs/en/datasets dir)
-/datasets
+/datasets/
 examples/datasets/
 examples/ultralytics/
 runs/
@@ -217,3 +217,7 @@ results.csv
 **/.obsidian/workspace-mobile.json
 **/.obsidian/graph.json
 
+# Backup files
+*.bak
+*_backup.md
+*.tmp
